@@ -1,19 +1,22 @@
-import { Controller, Post, Get, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, UseGuards, Put, Delete } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../user/user-role.enum';
 import { PointService } from './point.service';
 import { CreatePointDto } from './dto/create-point.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.SUPERVISOR, UserRole.FUNCIONARIO)
 @Controller('points')
 export class PointController {
   constructor(private readonly pointService: PointService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createPointDto: CreatePointDto) {
     return this.pointService.create(createPointDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.pointService.findAll();

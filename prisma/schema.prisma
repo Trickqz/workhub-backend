@@ -12,8 +12,14 @@ model User {
   name     String
   email    String @unique
   password String
+  role     UserRole
   points   Point[]
   tasks    Task[]
+}
+
+enum UserRole {
+  FUNCIONARIO
+  SUPERVISOR
 }
 
 model Point {

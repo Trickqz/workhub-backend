@@ -12,4 +12,32 @@ model User {
   name     String
   email    String @unique
   password String
+  points   Point[]
+  tasks    Task[]
+}
+
+model Point {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  entry     DateTime
+  exit      DateTime?
+  breaks    Break[]
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  status      String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Break {
+  id        Int      @id @default(autoincrement())
+  pointId   Int
+  start     DateTime
+  end       DateTime
+  point     Point    @relation(fields: [pointId], references: [id])
 }

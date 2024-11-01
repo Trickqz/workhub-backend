@@ -11,7 +11,6 @@ export class UserController {
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-
   @Get()
   async findAll() {
     return this.userService.findAll();
